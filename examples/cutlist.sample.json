@@ -1,0 +1,42 @@
+{
+  "_comment": [
+    "A complete, runnable cut list. The paths are made up, but the shape is real --",
+    "this is the exact structure we use for 9-minute talking-head edits.",
+    "",
+    "To use it on your own footage, change the two paths and set 'dur' to the real",
+    "length in seconds. Two ways to read a file's duration and frame rate:",
+    "  ffprobe -v 0 -show_entries format=duration -of csv=p=0 clip.mp4",
+    "  python -c \"import av;c=av.open('clip.mp4');print(float(c.duration)/av.time_base, float(c.streams.video[0].average_rate))\"",
+    "",
+    "'fps' must match the source. 29.97 and 30 look the same and drift ~0.8s",
+    "over 13 minutes if you pick the wrong one."
+  ],
+
+  "name": "example_sequence",
+  "fps": 29.97,
+  "width": 1920,
+  "height": 1080,
+
+  "sources": {
+    "cam": { "path": "C:/footage/example (cam)/cam.mp4", "dur": 300.0 },
+    "chart": { "path": "C:/footage/example (chart)/chart.mp4", "dur": 120.0 }
+  },
+
+  "cuts": [
+    { "src": "cam",   "in":  4.24, "out": 12.60, "label": "intro" },
+    { "src": "cam",   "in": 13.36, "out": 32.44, "label": "intro" },
+    { "src": "chart", "in":  2.00, "out": 11.50, "label": "chart walkthrough" },
+    { "src": "cam",   "in": 40.84, "out": 54.98, "label": "body 1" },
+
+    { "src": "cam", "in": 60.00, "out":  75.00, "label": "unused (retake)",
+      "track": 2, "at": 51.08, "enabled": false },
+    { "src": "cam", "in": 90.00, "out": 101.00, "label": "unused (silence)",
+      "track": 2, "at": 66.08, "enabled": false }
+  ],
+
+  "markers": [
+    { "at":  0.00, "name": "INTRO", "comment": "cam @ 4s" },
+    { "at": 27.44, "name": "Chart", "comment": "chart @ 2s" },
+    { "at": 36.94, "name": "Body",  "comment": "cam @ 40s" }
+  ]
+}
